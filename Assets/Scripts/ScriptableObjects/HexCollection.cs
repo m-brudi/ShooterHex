@@ -6,6 +6,7 @@ using UnityEngine;
 public class HexCollection : ScriptableObject
 {
     [SerializeField] List<Hex> hexes;
+    [SerializeField] Hex startingHex;
     int hexIndex = 0;
     public Hex GetHex() {
         hexIndex++;
@@ -14,6 +15,6 @@ public class HexCollection : ScriptableObject
     }
 
     public Hex GetStartingHex() {
-        return hexes[0];
+        return startingHex;
     }
 }

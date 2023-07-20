@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform playerImg;
     [SerializeField] float runSpeed = 20.0f;
     [SerializeField] Bomb bomb;
+    [SerializeField] int health = 10;
 
     Rigidbody rb;
     float horizontal;
@@ -22,6 +23,10 @@ public class PlayerController : MonoBehaviour
     }
     public float Vertical {
         get { return vertical; }
+    }
+
+    public int Health {
+        get { return health; }
     }
 
     public bool Right {
@@ -68,6 +73,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int dmg) {
+        health -= dmg;
+        //jakas animacja czy co
+    }
     void PlayModeActive() {
         canMove = true;
     }

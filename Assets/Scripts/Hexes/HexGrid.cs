@@ -6,6 +6,8 @@ using UnityEngine;
 public class HexGrid : MonoBehaviour
 {
     public enum HexOperationType {
+        Nothing,
+        NewHex,
         RotateSingle,
         SwitchPlace,
         RotateAround
@@ -30,7 +32,7 @@ public class HexGrid : MonoBehaviour
             for (int k = 0; k < xSizeOfGrid; k++) {
                 float xCoordinate = (k + (i * .5f) - (i / 2))*(xOffset);
                 float zCoordinate = i * (zOffset);
-                Vector3 coordinate = new(xCoordinate, -.3f, zCoordinate);
+                Vector3 coordinate = new(xCoordinate, -6f, zCoordinate);
                 CreateCell(coordinate, k, i,true);
             }
         }
@@ -54,7 +56,8 @@ public class HexGrid : MonoBehaviour
         GridCell cell = Instantiate(gridCellPrefab, pos, Quaternion.identity, transform).GetComponent<GridCell>();
         cell.XCoordinate = xCoordinate;
         cell.ZCoordinate = zCoordinate;
-        if (createHex) cell.CreateHex();
+        Hex hexToSpawn = Controller.Instance.hexCollection.GetHex();
+        if (createHex) cell.CreateHex(hexToSpawn);
         //else AddNeighbours(cell, false);
         cells.Add(cell);
         return cell;
@@ -208,20 +211,42 @@ public class HexGrid : MonoBehaviour
                 zOff = zOffset;
             }
         }
-        return new Vector3(cellX + xOff, -.3f, cellZ + zOff);
+        return new Vector3(cellX + xOff, -6f, cellZ + zOff);
     }
 
-    public void CreateHexOnMousePosition(Vector3 clickPos) {
+    public void CreateHexOnMousePosition(Vector3 clickPos, Hex hexToSpawn) {
         closests = cells.FindAll(x=> Vector3.Distance(x.transform.position, clickPos) < xOffset/2);
         for (int i = 0; i < closests.Count; i++) {
             if (!closests[i].Taken) {
-                closests[i].CreateHex();
+                closests[i].CreateHex(hexToSpawn);
+                Controller.Instance.Coins -= Controller.Instance.costOfNewHex;
+                Controller.Instance.StartShowingNewHex();
                 AddNeighbours(closests[i],true);
                 break;
             }
         }
     }
 
+    public Vector3 GetPositionOnGrid(Vector3 mousePos) {
+        closests = cells.FindAll(x => Vector3.Distance(x.transform.position, mousePos) < xOffset / 2);
+        for (int i = 0; i < closests.Count; i++) {
+            if (!closests[i].Taken) {
+                Vector3 pos = new (closests[i].transform.position.x, 15, closests[i].transform.position.y);
+                return closests[i].transform.position;
+            }
+        }
+        return Vector3.zero;
+    }
+
+    public void ShowNextHexOnNewPos(Vector3 mousePos, Hex hexToDisplay) {
+        closests = cells.FindAll(x => Vector3.Distance(x.transform.position, mousePos) < xOffset / 2);
+        for (int i = 0; i < closests.Count; i++) {
+            if (!closests[i].Taken) {
+                Instantiate(hexToDisplay, closests[i].transform.position, Quaternion.identity);
+                break;
+            }
+        }
+    }
     void Start(){
         zOffset = 0.866025404f* xOffset;
         GenerateGrid();

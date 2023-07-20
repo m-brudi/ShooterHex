@@ -34,12 +34,12 @@ public class GridCell : MonoBehaviour
     private void Start() {
         if (XCoordinate == 0 && ZCoordinate == 0) startingCell = true;
     }
-    public void CreateHex() {
-        Hex hexToSpawn;
-        if (XCoordinate == 0 && ZCoordinate == 0) hexToSpawn = Controller.Instance.hexCollection.GetStartingHex();
-        else hexToSpawn = Controller.Instance.hexCollection.GetHex();
-        Hex hex = Instantiate(hexToSpawn, transform.position, Quaternion.identity);
-        hex.MyCell = this;
+    public void CreateHex(Hex hexToSpawn) {
+        Hex hex;
+        if (XCoordinate == 0 && ZCoordinate == 0) {
+            hex = Instantiate(Controller.Instance.hexCollection.GetStartingHex(), transform.position, Quaternion.identity);
+        } else hex = Instantiate(hexToSpawn, transform.position, Quaternion.identity);
+        hex.Setup(this);
         myHex = hex;
         taken = true;
     }

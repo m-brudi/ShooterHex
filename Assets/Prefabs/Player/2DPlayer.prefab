@@ -131,7 +131,8 @@ GameObject:
   - component: {fileID: 1919762730800500815}
   - component: {fileID: 1919762730800500812}
   - component: {fileID: 2255045744869179215}
-  m_Layer: 0
+  - component: {fileID: 5024676082521271619}
+  m_Layer: 7
   m_Name: 2DPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,8 +169,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 1919762730317808878}
+  playerImg: {fileID: 0}
   runSpeed: 10
   bomb: {fileID: 4167609166858762264, guid: b95ee15341d06a84a8f7d135f26d8edd, type: 3}
+  health: 10
 --- !u!54 &1919762730800500815
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -212,6 +215,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1c7d8de0f4c603468dc6cbd3f48f679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5024676082521271619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1919762730800500850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d192975984e0f6140933200482d974d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 7702774611983516854, guid: 2acd21c477851934a8920d69c8e8650f, type: 3}
+  reloadKey: 0
 --- !u!1 &1919762731638192404
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +241,7 @@ GameObject:
   - component: {fileID: 1919762731638192401}
   - component: {fileID: 1919762731638192406}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: ShadowSphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

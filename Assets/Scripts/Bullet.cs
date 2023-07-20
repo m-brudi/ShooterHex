@@ -8,8 +8,11 @@ public class Bullet : MonoBehaviour
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Rigidbody rb;
     [SerializeField] float speed = 10;
+    [SerializeField] int damage;
+    SphereCollider coll;
 
     public void Setup(Vector3 dir) {
+        coll = GetComponent<SphereCollider>();
         transform.DOScale(1, 0.2f);
         Vector3 direction = (dir - Controller.Instance.PlayerTransform.position).normalized;
         Vector3 force = direction * speed;
@@ -18,20 +21,20 @@ public class Bullet : MonoBehaviour
         StartCoroutine(DestroyAfterSomeTime(5));
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag != "Player") {
+            coll.enabled = false;
             sr.enabled = false;
             rb.velocity = Vector3.zero;
             rb.isKinematic = true;
-            GameObject imp = Instantiate(bulletImpact, sr.transform.position, transform.rotation);
-            Destroy(imp, 1);
-            StartCoroutine(DestroyAfterSomeTime(1));
+            IDamageable damageable = other.gameObject.GetComponent<IDamageable>();
+            damageable?.Damage(damage, transform.position);
+            Destroy(gameObject);
         }
     }
 
     IEnumerator DestroyAfterSomeTime(float time) {
         yield return new WaitForSeconds(time);
-      
         Destroy(gameObject);
     }
 

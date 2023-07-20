@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 7204429121382859527}
   - component: {fileID: 7204429121382859526}
   - component: {fileID: 7204429121382859529}
-  m_Layer: 0
+  - component: {fileID: 8441123533147925001}
+  m_Layer: 9
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7204429121382859531}
   m_LocalRotation: {x: 0.45399043, y: 0, z: 0, w: 0.8910066}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8593439127446092386}
@@ -53,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 371ceed89815a1d45840771e6b188531, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,6 +106,22 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8441123533147925001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204429121382859531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee158225ee1e59f4791627785501d950, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shaderTypes: 0
+  normalStrength: 5
+  normalSmoothing: 1
+  computingNormal: 0
 --- !u!1 &8593439127446092385
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,7 +134,8 @@ GameObject:
   - component: {fileID: 8593439127446092387}
   - component: {fileID: 8593439127446092384}
   - component: {fileID: 1332543628909279039}
-  m_Layer: 0
+  - component: {fileID: 2781507968479314969}
+  m_Layer: 9
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,6 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 7204429121382859527}
   anim: {fileID: 7204429121382859529}
+  coll: {fileID: 0}
 --- !u!136 &8593439127446092384
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -162,9 +181,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8593439127446092385}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4016897
+  m_Radius: 0.31463486
   m_Height: 1.9320936
   m_Direction: 1
   m_Center: {x: 0, y: 0.45029908, z: 0}
@@ -176,11 +195,24 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8593439127446092385}
   serializedVersion: 2
-  m_Mass: 5
-  m_Drag: 5
+  m_Mass: 10
+  m_Drag: 0
   m_AngularDrag: 0.25
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!135 &2781507968479314969
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8593439127446092385}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.9813447
+  m_Center: {x: 0, y: 0.48, z: 0}

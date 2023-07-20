@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1703594866560458447}
   - component: {fileID: 892012119816597986}
   - component: {fileID: 9144990219468764038}
-  - component: {fileID: 7397401407605055426}
-  m_Layer: 0
+  - component: {fileID: 8099556025230893550}
+  m_Layer: 6
   m_Name: HexGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30,7 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,7 +99,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 8802771628929948559, guid: f6af69aa1c0638a40974704c10b4753c, type: 3}
---- !u!114 &7397401407605055426
+--- !u!114 &8099556025230893550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,7 +118,7 @@ MonoBehaviour:
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_UseGeometry: 0
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
@@ -127,4 +127,4 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: 671748e91071fcb41be1979f5ae9bc88, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f4568e6aa07fef346bf33e68571e5106, type: 2}

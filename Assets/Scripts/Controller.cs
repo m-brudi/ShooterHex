@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using System;
 using UnityEditor;
+using UnityEngine.EventSystems;
 
 public class Controller : SingletonMonoBehaviour<Controller>
 {
@@ -13,7 +14,29 @@ public class Controller : SingletonMonoBehaviour<Controller>
     [SerializeField] CinemachineVirtualCamera playerCam;
     [SerializeField] CinemachineVirtualCamera hexCam;
     [SerializeField] PlayerController playerController;
-
+    public int costOfNewHex;
+    public int costOfOperation;
+    bool canTerraform;
+    int coins;
+    Hex hexToShow;
+    Hex nextHexToPlace;
+    public int Coins {
+        get { return coins; }
+        set {
+            coins = value;
+            UiManager.Instance.SetupCoinsCounter(coins);     
+        }
+    }
+    public bool CanPlaceNewHex {
+        get { return coins >= costOfNewHex; }
+    }
+    public bool CanManipulateHex {
+        get { return coins >= costOfOperation; }
+    }
+    public bool CanTerraform {
+        get { return canTerraform; }
+        set { canTerraform = value; }
+    }
     public PlayerController Player {
         get { return playerController; }
     }
@@ -38,39 +61,62 @@ public class Controller : SingletonMonoBehaviour<Controller>
     }
     void Start()
     {
+        UiManager.Instance.SetupCoinsCounter(coins);
         SwitchToPlayMode();
 #if UNITY_EDITOR
-        Cursor.SetCursor(PlayerSettings.defaultCursor, Vector2.zero, CursorMode.ForceSoftware);
+        //Cursor.SetCursor(PlayerSettings.defaultCursor, Vector2.zero, CursorMode.ForceSoftware);
 #endif
     }
 
     void Update(){
-        if (Input.GetKeyDown(KeyCode.Tab)) {
+        if (Input.GetKeyDown(KeyCode.Tab) && canTerraform) {
             if (isInPlayMode) SwitchToHexMode();
             else SwitchToPlayMode();
         }
         if (!isInPlayMode) {
-            if (Input.GetMouseButtonDown(0)) {
-                float distance;
-                Vector3 clickPos = Vector3.zero;
+            if (currentOperationType == HexGrid.HexOperationType.NewHex) {
+                float dist;
+                Vector3 mousePos = Vector3.zero;
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if(plane.Raycast(ray,out distance)) {
-                    clickPos = ray.GetPoint(distance);
+                if (plane.Raycast(ray, out dist)) {
+                    mousePos = ray.GetPoint(dist);
                 }
-                //clickPos = new Vector3(clickPos.x, 0, clickPos.z);
-                hexGrid.CreateHexOnMousePosition(clickPos);
+                if (hexGrid.GetPositionOnGrid(mousePos) != Vector3.zero) {
+                    if (hexToShow) {
+                        hexToShow.gameObject.SetActive(true);
+                        hexToShow.transform.position = hexGrid.GetPositionOnGrid(mousePos);
+                    }
+                } else {
+                    if(hexToShow) hexToShow.gameObject.SetActive(false);
+                }
+                if (Input.GetMouseButtonDown(0)) {
+                    if (CanPlaceNewHex) {
+                        hexGrid.CreateHexOnMousePosition(mousePos, nextHexToPlace);
+                    }
+                }
             }
         }
-
+        
         if (Input.GetKeyDown(KeyCode.Alpha1)) currentOperationType = HexGrid.HexOperationType.RotateSingle;
         if (Input.GetKeyDown(KeyCode.Alpha2)) currentOperationType = HexGrid.HexOperationType.RotateAround;
         if (Input.GetKeyDown(KeyCode.Alpha3)) currentOperationType = HexGrid.HexOperationType.SwitchPlace;
         
     }
 
-
+    public void StartShowingNewHex() {
+        nextHexToPlace = null;
+        if (hexToShow) Destroy(hexToShow.gameObject);
+        nextHexToPlace = hexCollection.GetHex();
+        hexToShow = Instantiate(nextHexToPlace, new Vector3(0,-1000,0), Quaternion.identity);
+        hexToShow.SetupOnlyForShow();
+    }
+    public void StopShowingNewHex() {
+        nextHexToPlace = null;
+        if(hexToShow) Destroy(hexToShow.gameObject);
+    }
 
     void SwitchToPlayMode() {
+        if (hexToShow) Destroy(hexToShow.gameObject);
         isInPlayMode = true;
         playerCam.Priority = 10;
         hexCam.Priority = 0;
@@ -82,6 +128,14 @@ public class Controller : SingletonMonoBehaviour<Controller>
         playerCam.Priority = 0;
         hexCam.Priority = 10;
         hexMode?.Invoke();
+        currentOperationType = HexGrid.HexOperationType.Nothing;
+        StartShowingNewHex();
         //Cursor.visible = true;
+    }
+
+    public void ChangeOperationMode(HexGrid.HexOperationType type) {
+        currentOperationType = type;
+        if (type == HexGrid.HexOperationType.NewHex) StartShowingNewHex();
+        else StopShowingNewHex();
     }
 }

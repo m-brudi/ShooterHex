@@ -30,7 +30,7 @@ public class PlayerShoot : MonoBehaviour
     }
 
     void ShootBullet(Vector3 pos) {
-        Vector3 target = new(pos.x, transform.position.y, pos.z);
+        Vector3 target = new(pos.x, 0, pos.z);
         Bullet bull = Instantiate(bullet, transform.position, Quaternion.identity);
         bull.transform.localScale = Vector3.zero;
         bull.Setup(target);
