@@ -11,12 +11,12 @@ public class GunPanel : MonoBehaviour
     private void Start() {
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += StartReload;
-        gunFill.SetFill((float)currentGun.currentAmmo / currentGun.magSize);
+        gunFill.SetFill((float)currentGun.currentAmmo / currentGun.magSize, 0);
     }
 
     void Shoot() {
-        if(!currentGun.reloading)
-        gunFill.SetFill((float)currentGun.currentAmmo / currentGun.magSize,0);
+        float fill = (float)currentGun.currentAmmo / currentGun.magSize;
+        if (!currentGun.reloading) gunFill.SetFill(fill, 0);
     }
 
     void StartReload() {

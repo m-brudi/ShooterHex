@@ -31,16 +31,13 @@ public class GridCell : MonoBehaviour
         get { return zCoordinate; }
         set { zCoordinate = value; }
     }
-    private void Start() {
-        if (XCoordinate == 0 && ZCoordinate == 0) startingCell = true;
-    }
+
     public void CreateHex(Hex hexToSpawn) {
         Hex hex;
-        if (XCoordinate == 0 && ZCoordinate == 0) {
-            hex = Instantiate(Controller.Instance.hexCollection.GetStartingHex(), transform.position, Quaternion.identity);
-        } else hex = Instantiate(hexToSpawn, transform.position, Quaternion.identity);
+        hex = Instantiate(hexToSpawn, transform.position, Quaternion.identity);
         hex.Setup(this);
         myHex = hex;
         taken = true;
+        if (startingCell) hex.MakeMeStartHex();
     }
 }

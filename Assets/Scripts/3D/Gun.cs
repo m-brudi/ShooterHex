@@ -50,12 +50,6 @@ public class Gun : MonoBehaviour
     private void Update() {
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(muzzle.position, transform.right,Color.red);
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit hitData;
-        //if (Physics.Raycast(ray, out hitData, Mathf.Infinity)) {
-        //    Vector3 target = new Vector3(hitData.point.x, transform.position.y, hitData.point.z);
-        //    transform.LookAt(target);
-        //}
     }
     private void OnGunShot() {
              muzzleFlash.Play();

@@ -8,7 +8,7 @@ public class DamagableObject : MonoBehaviour, IDamageable {
     private void Start() {
         rb = GetComponent<Rigidbody>();
     }
-    public void Damage(float damage, Vector3 pos) {
+    public void Damage(int damage, Vector3 pos) {
         Vector3 dir = transform.position - pos;
         dir.Normalize();
         rb.AddForce(dir * damage, ForceMode.Impulse);

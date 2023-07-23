@@ -13,9 +13,10 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] int health;
     [SerializeField] int damage;
     [SerializeField] int numOfCoinsToDrop;
-    [SerializeField] float forceMultiplier = 1;
+    [SerializeField] float coinSpreadForceMultiplier;
     [SerializeField] GameObject coinPrefab;
     [SerializeField] GameObject shadowSphere;
+    [SerializeField] GameObject bulletPrefab;
     CapsuleCollider coll;
 
     Rigidbody rb;
@@ -41,8 +42,15 @@ public class Enemy : MonoBehaviour, IDamageable
     [Header("States")]
     [SerializeField] float sightRange; 
     [SerializeField] float  attackRange;
+    [Space]
+    [Header("Shooting")]
+    [SerializeField] float shootingRange; //lets use sight range for now
+    [SerializeField] float fireRate = 200;
+    [SerializeField] float timeSinceLastShot;
+    [SerializeField] int bulletDmg = 2;
     bool playerInSightRange, playerInAttackRange;
 
+    private bool CanShoot() => timeSinceLastShot > 1f / (fireRate / 60f);
     float myScale;
     bool dead;
     public int Health {
@@ -87,7 +95,7 @@ public class Enemy : MonoBehaviour, IDamageable
         for (int i = 0; i < numOfCoinsToDrop; i++) {
             Vector3 force = new Vector3(Random.Range(-1f, 1f), 1, Random.Range(-1f, 1f));
             GameObject c = Instantiate(coinPrefab, transform.position, Quaternion.identity);
-            c.GetComponent<Rigidbody>().AddForce(force * forceMultiplier,ForceMode.Impulse);
+            c.GetComponent<Rigidbody>().AddForce(force * coinSpreadForceMultiplier,ForceMode.Impulse);
         }
     }
 
@@ -108,8 +116,10 @@ public class Enemy : MonoBehaviour, IDamageable
                 }
 
                 if (!playerInAttackRange && !playerInSightRange) Patroling();
-                if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-                if (playerInSightRange && playerInAttackRange) AttackPlayer();
+                if (!Controller.Instance.IsPlayerDead) {
+                    if (playerInSightRange && !playerInAttackRange) ChasePlayer();
+                    if (playerInSightRange && playerInAttackRange) AttackPlayer();
+                }
             }
         } else {
             navMeshAgent.SetDestination(transform.position);
@@ -135,7 +145,18 @@ public class Enemy : MonoBehaviour, IDamageable
             walkPointSet = true;
     }
 
+    private void Shoot() {
+        timeSinceLastShot += Time.deltaTime;
+        if (CanShoot()) {
+            Bullet bull = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
+            bull.transform.localScale = Vector3.zero;
+            bull.Setup(Controller.Instance.PlayerTransform.position, transform.position, bulletDmg, false);
+            timeSinceLastShot = 0;
+        }
+    }
+
     private void ChasePlayer() {
+        Shoot();
         navMeshAgent.SetDestination(player.position);
         navMeshAgent.speed = chasingSpeed;
     }
@@ -150,10 +171,16 @@ public class Enemy : MonoBehaviour, IDamageable
         if (!alreadyAttacked) {
             //attack
             anim.SetTrigger("Attack");
-            Controller.Instance.Player.TakeDamage(damage);
+            StartCoroutine(DelayAttack());
             alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
+    }
+
+    IEnumerator DelayAttack() {
+        yield return new WaitForSeconds(.5f);
+        if (playerInSightRange && playerInAttackRange)
+            Controller.Instance.Player.Damage(damage, transform.position);
     }
 
     private void ResetAttack() {
@@ -169,7 +196,7 @@ public class Enemy : MonoBehaviour, IDamageable
     //    Gizmos.DrawWireSphere(transform.position, walkPointRange);
     //}
 
-    public void Damage(float damage, Vector3 pos) {
+    public void Damage(int damage, Vector3 pos) {
         if (!dead) {
             Health -= (int)damage;
             Vector3 dir = transform.position - pos;

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80f87cad4c6ca604c83b553e2eebe046, type: 3}
   m_Name: HandGun
   m_EditorClassIdentifier: 
-  name: Hand Gun
-  damage: 10
+  name: FireGun
+  damage: 2
   maxDistance: 100
-  currentAmmo: 90
-  magSize: 9
+  currentAmmo: 10
+  magSize: 10
   fireRate: 200
   reloadTime: 1.5
-  reloading: 0
+  reloading: 1

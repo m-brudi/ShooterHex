@@ -27,15 +27,19 @@ public class HexGrid : MonoBehaviour
 
     public Hex firstToSwitch;
 
-    void GenerateGrid() {
-        for (int i = 0; i < zSizeOfGrid; i++) {
-            for (int k = 0; k < xSizeOfGrid; k++) {
+    public void GenerateGrid(int sizeX, int sizeZ, float chance) {
+        for (int i = 0; i < sizeZ; i++) {
+            for (int k = 0; k < sizeX; k++) {
                 float xCoordinate = (k + (i * .5f) - (i / 2))*(xOffset);
                 float zCoordinate = i * (zOffset);
                 Vector3 coordinate = new(xCoordinate, -6f, zCoordinate);
-                CreateCell(coordinate, k, i,true);
+                CreateCell(coordinate, k, i,false);
             }
         }
+
+        ChooseStartHex(sizeX, sizeZ);
+
+        GenerateExtraHexes(sizeX,sizeZ,chance);
         foreach (var cell in cells.ToArray()) {
             AddNeighbours(cell, true);
         }
@@ -43,9 +47,29 @@ public class HexGrid : MonoBehaviour
         StartCoroutine(DelaySortingNeighbours());
     }
 
+    void ChooseStartHex(int sizeX, int sizeZ) {
+        int randX = Random.Range(Mathf.FloorToInt(sizeX / 4), sizeX - Mathf.FloorToInt(sizeX / 4));
+        int randZ = Random.Range(Mathf.FloorToInt(sizeZ / 4), sizeZ - Mathf.FloorToInt(sizeZ / 4));
+        GridCell cell = cells.Find(x => x.XCoordinate == randX && x.ZCoordinate == randZ);
+        cell.startingCell = true;
+        cell.CreateHex(Controller.Instance.hexCollection.GetStartingHex());
+        Controller.Instance.SetupStartingHex(cell);
+    }
+
+    void GenerateExtraHexes(int sizeX, int sizeZ, float chance) {
+        foreach (var item in cells) {
+            if (!item.Taken) {
+                if (item.XCoordinate == sizeX && item.ZCoordinate == sizeZ) {
+                    item.CreateHex(Controller.Instance.hexCollection.GetHex());
+                } else {
+                    if (Random.value < chance) item.CreateHex(Controller.Instance.hexCollection.GetHex());
+                }
+            }
+        }
+    }
+
     IEnumerator DelaySortingNeighbours() {
-        yield return new WaitForSeconds(5f);
-       
+        yield return new WaitForSeconds(.5f);
         foreach (var cell in cells.ToArray()) {
             AddNeighbours(cell, false);
         }
@@ -58,7 +82,6 @@ public class HexGrid : MonoBehaviour
         cell.ZCoordinate = zCoordinate;
         Hex hexToSpawn = Controller.Instance.hexCollection.GetHex();
         if (createHex) cell.CreateHex(hexToSpawn);
-        //else AddNeighbours(cell, false);
         cells.Add(cell);
         return cell;
     }
@@ -249,6 +272,5 @@ public class HexGrid : MonoBehaviour
     }
     void Start(){
         zOffset = 0.866025404f* xOffset;
-        GenerateGrid();
     }
 }

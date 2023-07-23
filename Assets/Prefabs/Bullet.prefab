@@ -169,10 +169,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557af0936c498cc40a2532f49e449043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
   bulletImpact: {fileID: 4541750444181683049, guid: 5d6c6e7ace3140a4884eda0b24b76f5b,
     type: 3}
   sr: {fileID: 7702774611463833990}
   rb: {fileID: 7702774611983516843}
+  shotByPlayerMat: {fileID: 2100000, guid: eb62417d6a9aa2b429b7a0a9700e4359, type: 2}
+  shotByEnemyMat: {fileID: 2100000, guid: 8e6c306bb5d80e349bee72b19c557064, type: 2}
   speed: 30
   damage: 2
 --- !u!135 &7702774611983516840

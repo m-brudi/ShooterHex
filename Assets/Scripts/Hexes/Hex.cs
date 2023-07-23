@@ -9,15 +9,24 @@ public class Hex : MonoBehaviour
     [SerializeField] MeshCollider groundCollider;
     [SerializeField] GridCell myCell;
     [SerializeField] Transform objects;
-    [SerializeField] Transform enemies;
+    [SerializeField] List<GameObject> enemies;
+    [SerializeField] Transform[] enemiesSpawnPoints;
+    [SerializeField] Transform decorations;
+    [SerializeField] Transform enemiesParent;
+    [SerializeField] GameObject enemyPrefab;
     bool hexMode;
     MeshCollider myClickCollider;
-    Quaternion enemiesRot;
+    //Quaternion enemiesRot;
     List<MeshCollider> objsColls = new List<MeshCollider>();
     bool actionDone = true;
+
     public GridCell MyCell {
         get { return myCell; }
         set { myCell = value; }
+    }
+
+    public void MakeMeStartHex() {
+        //not sure but might come in handy later
     }
 
     public void Setup(GridCell cell) {
@@ -46,39 +55,48 @@ public class Hex : MonoBehaviour
     public void HexModeActive() {
         hexMode = true;
         DisableObjectsColliders();
-        DisableEnemies();
+        DeleteEnemies();
         if(myClickCollider)myClickCollider.enabled = true;
         if(groundCollider)groundCollider.enabled = false;
     }
     public void PlayModeActive() {
         hexMode = false;
         EnableObjectsColliders();
-        EnableEnemies();
+        SpawnEnemies();
         if (myClickCollider) myClickCollider.enabled = false;
         if (groundCollider) groundCollider.enabled = true;
     }
 
-    void DisableEnemies() {
-        foreach (Transform item in enemies) {
-            enemiesRot = item.transform.rotation;
-            item.gameObject.SetActive(false);
+    void DeleteEnemies() {
+        foreach (var item in enemies) {
+            Destroy(item.gameObject);
         }
-
+        enemies.Clear();
     }
-    void EnableEnemies() {
-        foreach (Transform item in enemies) {
-            item.transform.rotation = enemiesRot;
-            item.gameObject.SetActive(true);
+    void SpawnEnemies() {
+        List<Transform> spawnPoints = new List<Transform>(enemiesSpawnPoints);
+        foreach (var item in spawnPoints) {
+            float chance = Random.value;
+            if(chance > .3f) {
+                GameObject e = Instantiate(enemyPrefab, item.transform.position, Quaternion.identity, enemiesParent);
+                enemies.Add(e);
+            }
         }
     }
 
     void DisableObjectsColliders() {
+        foreach(Transform child in decorations) {   
+            child.gameObject.SetActive(false);
+        }
         foreach (var item in objsColls) {
             item.enabled = false;
         }
     }
 
     void EnableObjectsColliders() {
+        foreach (Transform child in decorations) {
+            child.gameObject.SetActive(true);
+        }
         foreach (var item in objsColls) {
             item.enabled = true;
         }

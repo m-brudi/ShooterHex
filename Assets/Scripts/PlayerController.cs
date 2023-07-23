@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour, IDamageable {
+
+    [SerializeField] PlayerShoot playerShoot;
     [SerializeField] Animator anim;
+    [SerializeField] Animator deathEffectAnimator;
     [SerializeField] Transform playerImg;
     [SerializeField] float runSpeed = 20.0f;
     [SerializeField] Bomb bomb;
-    [SerializeField] int health = 10;
-
+    [SerializeField] int maxHealth = 10;
+    [SerializeField] SpriteRenderer sr;
+    [SerializeField] GameObject shadowSphere;
+    int currentHealth;
     Rigidbody rb;
     float horizontal;
     float vertical;
     float moveLimiter = 0.7f;
     bool right = true;
     bool canMove;
-
+    public bool dead;
     public float Horizontal {
         get { return horizontal; }
     }
@@ -26,7 +30,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public int Health {
-        get { return health; }
+        get { return maxHealth; }
     }
 
     public bool Right {
@@ -46,7 +50,16 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         Controller.playMode += PlayModeActive;
         Controller.hexMode += HexModeActive;
+    }
+
+    public void StartGame() {
+        shadowSphere.SetActive(true);
+        playerShoot.StartReload();
         canMove = true;
+        dead = false;
+        sr.enabled = true;
+        currentHealth = maxHealth;
+        UiManager.Instance.SetupHpFill(currentHealth, maxHealth);
     }
 
     void Update()
@@ -69,14 +82,34 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space)) {
                 Bomb b = Instantiate(bomb, transform.position, Quaternion.identity);
                 b.Plant();
+                Death();
             }
         }
     }
 
-    public void TakeDamage(int dmg) {
-        health -= dmg;
-        //jakas animacja czy co
+    public void Damage(int damage, Vector3 pos) {
+        currentHealth -= damage;
+        anim.SetTrigger("TakeHit");
+        if (currentHealth <= 0) Death();
+        UiManager.Instance.SetupHpFill(currentHealth, maxHealth);
     }
+
+    void Death() {
+        canMove = false;
+        dead = true;
+        StartCoroutine(DelayRestart());
+    }
+    IEnumerator DelayRestart() {
+        yield return new WaitForSeconds(.5f);
+        sr.enabled = false;
+        shadowSphere.SetActive(false);
+        deathEffectAnimator.SetTrigger("GO");
+        yield return new WaitForSeconds(1);
+        Controller.Instance.SwitchToHexMode();
+        yield return new WaitForSeconds(2);
+        Controller.Instance.StartGame();
+    }
+
     void PlayModeActive() {
         canMove = true;
     }
@@ -92,4 +125,6 @@ public class PlayerController : MonoBehaviour
 
         if(canMove) rb.velocity = new Vector3(horizontal * runSpeed, 0, vertical * runSpeed);
     }
+
+
 }

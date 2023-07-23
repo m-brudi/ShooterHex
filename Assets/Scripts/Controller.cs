@@ -14,6 +14,8 @@ public class Controller : SingletonMonoBehaviour<Controller>
     [SerializeField] CinemachineVirtualCamera playerCam;
     [SerializeField] CinemachineVirtualCamera hexCam;
     [SerializeField] PlayerController playerController;
+    [SerializeField] Transform startingHexObjects;
+    [SerializeField] Transform playerStartPos;
     public int costOfNewHex;
     public int costOfOperation;
     bool canTerraform;
@@ -26,6 +28,10 @@ public class Controller : SingletonMonoBehaviour<Controller>
             coins = value;
             UiManager.Instance.SetupCoinsCounter(coins);     
         }
+    }
+
+    public bool IsPlayerDead {
+        get { return playerController.dead; }
     }
     public bool CanPlaceNewHex {
         get { return coins >= costOfNewHex; }
@@ -62,11 +68,24 @@ public class Controller : SingletonMonoBehaviour<Controller>
     void Start()
     {
         UiManager.Instance.SetupCoinsCounter(coins);
-        SwitchToPlayMode();
 #if UNITY_EDITOR
         //Cursor.SetCursor(PlayerSettings.defaultCursor, Vector2.zero, CursorMode.ForceSoftware);
 #endif
+        hexGrid.GenerateGrid(5,5, .1f);
+        StartGame();
     }
+
+    public void SetupStartingHex(GridCell cell) {
+        Vector3 pos = new(cell.transform.position.x, 0, cell.transform.position.z);
+        startingHexObjects.transform.position = pos;
+    }
+
+    public void StartGame() {
+        playerController.transform.position = playerStartPos.position;
+        playerController.StartGame();
+        SwitchToPlayMode();
+    }
+
 
     void Update(){
         if (Input.GetKeyDown(KeyCode.Tab) && canTerraform) {
@@ -115,7 +134,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
         if(hexToShow) Destroy(hexToShow.gameObject);
     }
 
-    void SwitchToPlayMode() {
+    public void SwitchToPlayMode() {
         if (hexToShow) Destroy(hexToShow.gameObject);
         isInPlayMode = true;
         playerCam.Priority = 10;
@@ -123,13 +142,12 @@ public class Controller : SingletonMonoBehaviour<Controller>
         playMode?.Invoke();
         //Cursor.visible = false;
     }
-    void SwitchToHexMode() {
+    public void SwitchToHexMode() {
         isInPlayMode = false;
         playerCam.Priority = 0;
         hexCam.Priority = 10;
         hexMode?.Invoke();
         currentOperationType = HexGrid.HexOperationType.Nothing;
-        StartShowingNewHex();
         //Cursor.visible = true;
     }
 

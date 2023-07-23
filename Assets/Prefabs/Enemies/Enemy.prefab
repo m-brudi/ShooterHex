@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 6723590001412002485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.38, y: 0, z: 4.55}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.01666667, y: 0.01666667, z: 0.01666667}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6723590001698419112}
   - {fileID: 6723590002697071794}
@@ -50,14 +50,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrollingSpeed: 3
-  chasingSpeed: 6
+  chasingSpeed: 10
   health: 10
   damage: 2
   numOfCoinsToDrop: 5
-  forceMultiplier: 60
+  coinSpreadForceMultiplier: 50
   coinPrefab: {fileID: 8593439127446092385, guid: 7bea68d8de73e0b4f8e6ceabf8f0d250,
     type: 3}
   shadowSphere: {fileID: 6723590002697071797}
+  bulletPrefab: {fileID: 7702774611983516855, guid: 2acd21c477851934a8920d69c8e8650f,
+    type: 3}
   sprite: {fileID: 6723590001698419112}
   anim: {fileID: 6723590001698419113}
   navMeshAgent: {fileID: 6723590001412002481}
@@ -71,6 +73,10 @@ MonoBehaviour:
   timeBetweenAttacks: 2
   sightRange: 10
   attackRange: 2
+  shootingRange: 10
+  fireRate: 100
+  timeSinceLastShot: 0
+  bulletDmg: 2
 --- !u!136 &6723590001412002482
 CapsuleCollider:
   m_ObjectHideFlags: 0
