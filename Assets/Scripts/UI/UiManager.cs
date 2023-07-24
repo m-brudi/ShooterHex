@@ -9,11 +9,17 @@ public class UiManager : SingletonMonoBehaviour <UiManager>{
     [SerializeField] TextMeshProUGUI coinsCounter;
     [SerializeField] GameObject hpPanel;
     [SerializeField] DynamicFilledImage hpFill;
+    [SerializeField] GameObject mapInfo;
 
     void Start()
     {
         Controller.hexMode += ShowHexModeUI;
         Controller.playMode += ShowPlayModeUI;
+        ShowOrHideMapInfo(false);
+    }
+
+    public void ShowOrHideMapInfo(bool show) {
+        mapInfo.SetActive(show);
     }
 
     public void SetupCoinsCounter(int value) {
@@ -28,6 +34,7 @@ public class UiManager : SingletonMonoBehaviour <UiManager>{
         hexModePanel.gameObject.SetActive(true);
         hexModePanel.Setup();
         hpPanel.SetActive(false);
+        ShowOrHideMapInfo(false);
     }
 
     void ShowPlayModeUI() {

@@ -19,7 +19,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
     public int costOfNewHex;
     public int costOfOperation;
     bool canTerraform;
-    int coins;
+    int coins = 100;
     Hex hexToShow;
     Hex nextHexToPlace;
     public int Coins {

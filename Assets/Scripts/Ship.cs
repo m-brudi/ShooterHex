@@ -32,6 +32,7 @@ public class Ship : MonoBehaviour
             Controller.Instance.CanTerraform = true;
             terraformSphere.DOScale(4, .5f).SetEase(Ease.InOutBack);
             partOfShip.DOLocalMoveY(.5f, 0.5f).SetEase(Ease.InOutBack);
+            UiManager.Instance.ShowOrHideMapInfo(true);
         }
     }
     private void OnTriggerExit(Collider other) {
@@ -39,6 +40,7 @@ public class Ship : MonoBehaviour
             Controller.Instance.CanTerraform = false;
             terraformSphere.DOScale(1, .5f).SetEase(Ease.InBack);
             partOfShip.DOLocalMoveY(.05f, .5f).SetEase(Ease.InBack);
+            UiManager.Instance.ShowOrHideMapInfo(false);
         }
     }
     

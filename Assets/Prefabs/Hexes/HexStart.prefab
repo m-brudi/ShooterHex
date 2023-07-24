@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 2589565598479715022}
   - component: {fileID: 8369864442938614590}
   m_Layer: 0
-  m_Name: StartHex
+  m_Name: HexStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
