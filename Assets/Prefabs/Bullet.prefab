@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7702774611463833990}
   - component: {fileID: 7702774611463833991}
   - component: {fileID: 7702774611463833977}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 7702774611983516854}
   - component: {fileID: 7702774611983516840}
   - component: {fileID: 7702774611983516843}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,12 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 557af0936c498cc40a2532f49e449043, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 128
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 256
   bulletImpact: {fileID: 4541750444181683049, guid: 5d6c6e7ace3140a4884eda0b24b76f5b,
     type: 3}
   sr: {fileID: 7702774611463833990}
@@ -183,6 +177,9 @@ MonoBehaviour:
   shotByEnemyMat: {fileID: 2100000, guid: 8e6c306bb5d80e349bee72b19c557064, type: 2}
   speed: 30
   damage: 2
+  layerToNotCollide:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &7702774611983516840
 SphereCollider:
   m_ObjectHideFlags: 0

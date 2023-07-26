@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-public class Bullet : MonoBehaviour
-{
+public class Bullet : MonoBehaviour {
     [SerializeField] GameObject bulletImpact;
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Rigidbody rb;
@@ -13,6 +12,10 @@ public class Bullet : MonoBehaviour
     [SerializeField] int damage;
     SphereCollider coll;
     [SerializeField] LayerMask layerToNotCollide;
+    public float Speed{
+       
+        set { speed = value; }
+    }
     bool allSet = false;
     private void Start() {
         Controller.hexMode += DeleteOnHexView;

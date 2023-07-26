@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6723590001412002480}
-  - component: {fileID: 6723590001412002483}
+  - component: {fileID: 8677111126142792488}
   - component: {fileID: 6723590001412002482}
   - component: {fileID: 6723590001412002481}
   - component: {fileID: 6723590001412002494}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Enemy Range
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,7 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6723590001412002483
+--- !u!114 &8677111126142792488
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,20 +46,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6723590001412002485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 986c215fdfbc0704ab217a2961ca1ad5, type: 3}
+  m_Script: {fileID: 11500000, guid: 23eff875fe85f10488eaf1d7d14d9ab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  patrollingSpeed: 3
-  chasingSpeed: 10
-  health: 10
-  damage: 2
+  patrollingSpeed: 2
+  chasingSpeed: 2
+  health: 6
   numOfCoinsToDrop: 5
   coinSpreadForceMultiplier: 50
   coinPrefab: {fileID: 8593439127446092385, guid: 7bea68d8de73e0b4f8e6ceabf8f0d250,
     type: 3}
   shadowSphere: {fileID: 6723590002697071797}
-  bulletPrefab: {fileID: 7702774611983516855, guid: 2acd21c477851934a8920d69c8e8650f,
-    type: 3}
+  coll: {fileID: 0}
+  rb: {fileID: 0}
   sprite: {fileID: 6723590001698419112}
   anim: {fileID: 6723590001698419113}
   navMeshAgent: {fileID: 6723590001412002481}
@@ -69,14 +68,21 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  player: {fileID: 0}
+  myScale: 0
+  dead: 0
+  playerInSightRange: 0
+  playerInAttackRange: 0
   walkPointRange: 4
-  timeBetweenAttacks: 2
-  sightRange: 10
-  attackRange: 2
-  shootingRange: 10
-  fireRate: 100
+  sightRange: 15
+  attackRange: 10
+  shootingRange: 0
+  fireRate: 20
   timeSinceLastShot: 0
   bulletDmg: 2
+  bulletSpeed: 10
+  bulletPrefab: {fileID: 7702774611983516855, guid: 2acd21c477851934a8920d69c8e8650f,
+    type: 3}
 --- !u!136 &6723590001412002482
 CapsuleCollider:
   m_ObjectHideFlags: 0

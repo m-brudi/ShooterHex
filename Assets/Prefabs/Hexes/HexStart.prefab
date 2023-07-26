@@ -139,8 +139,7 @@ MonoBehaviour:
   groundCollider: {fileID: 3575170729936354427}
   myCell: {fileID: 0}
   objects: {fileID: 4859298117738260920}
-  enemies:
-  - {fileID: 0}
+  enemies: []
   enemiesSpawnPoints:
   - {fileID: 8152725930661955902}
   - {fileID: 478104082329754098}
@@ -151,7 +150,7 @@ MonoBehaviour:
   - {fileID: 4600752492144981374}
   decorations: {fileID: 442735860465171880}
   enemiesParent: {fileID: 4541959036549978413}
-  enemyPrefab: {fileID: 6723590001412002485, guid: 564f0d1e703cbe94c918b583632aa798,
+  enemyPrefab: {fileID: 6723590001412002485, guid: 69e8fc1290477d24bac333b6594eeed5,
     type: 3}
 --- !u!1 &3735206859524350821
 GameObject:
