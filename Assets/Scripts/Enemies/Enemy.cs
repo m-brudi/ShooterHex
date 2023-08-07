@@ -109,6 +109,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public virtual void Patroling() {
         if (!walkPointSet) SearchWalkPoint();
+        if(navMeshAgent.speed < 0.1f) SearchWalkPoint();
         if (walkPointSet) {
             navMeshAgent.SetDestination(walkPoint);
             navMeshAgent.speed = patrollingSpeed;

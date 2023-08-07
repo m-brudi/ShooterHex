@@ -11,7 +11,7 @@ public class Hex : MonoBehaviour
     [SerializeField] Transform objects;
     [SerializeField] List<GameObject> enemies;
     [SerializeField] Transform[] enemiesSpawnPoints;
-    [SerializeField] Transform decorations;
+    [SerializeField] Transform enviro;
     [SerializeField] Transform enemiesParent;
     [SerializeField] GameObject enemyPrefab;
     bool hexMode;
@@ -85,7 +85,7 @@ public class Hex : MonoBehaviour
     }
 
     void DisableObjectsColliders() {
-        foreach(Transform child in decorations) {   
+        foreach(Transform child in enviro) {   
             child.gameObject.SetActive(false);
         }
         foreach (var item in objsColls) {
@@ -94,7 +94,7 @@ public class Hex : MonoBehaviour
     }
 
     void EnableObjectsColliders() {
-        foreach (Transform child in decorations) {
+        foreach (Transform child in enviro) {
             child.gameObject.SetActive(true);
         }
         foreach (var item in objsColls) {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6723590001412002482}
   - component: {fileID: 6723590001412002481}
   - component: {fileID: 6723590001412002494}
+  - component: {fileID: 3490648794071213906}
   m_Layer: 8
   m_Name: Enemy Range
   m_TagString: Untagged
@@ -75,9 +76,9 @@ MonoBehaviour:
   playerInAttackRange: 0
   walkPointRange: 4
   sightRange: 15
-  attackRange: 10
+  attackRange: 5
   shootingRange: 0
-  fireRate: 20
+  fireRate: 50
   timeSinceLastShot: 0
   bulletDmg: 2
   bulletSpeed: 10
@@ -135,6 +136,59 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &3490648794071213906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723590001412002485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks: []
+  InitializationMode: 2
+  SafeMode: 3
+  Direction: 0
+  AutoChangeDirectionOnEnd: 0
+  AutoPlayOnStart: 0
+  AutoPlayOnEnable: 0
+  ForceTimescaleMode: 0
+  ForcedTimescaleMode: 1
+  DurationMultiplier: 1
+  DisplayFullDurationDetails: 0
+  CooldownDuration: 0
+  InitialDelay: 0
+  CanPlayWhileAlreadyPlaying: 1
+  ChanceToPlay: 100
+  FeedbacksIntensity: 1
+  Events:
+    TriggerMMFeedbacksEvents: 0
+    TriggerUnityEvents: 1
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPause:
+      m_PersistentCalls:
+        m_Calls: []
+    OnResume:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRevert:
+      m_PersistentCalls:
+        m_Calls: []
+    OnComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  DebugActive: 0
+  FeedbacksList: []
+  KeepPlayModeChanges: 0
+  PerformanceMode: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &6723590001698419115
 GameObject:
   m_ObjectHideFlags: 0

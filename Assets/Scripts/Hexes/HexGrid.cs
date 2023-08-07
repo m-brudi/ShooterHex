@@ -243,6 +243,7 @@ public class HexGrid : MonoBehaviour
             if (!closests[i].Taken) {
                 closests[i].CreateHex(hexToSpawn);
                 Controller.Instance.Coins -= Controller.Instance.costOfNewHex;
+                Controller.Instance.GenerateNextHex();
                 Controller.Instance.StartShowingNewHex();
                 AddNeighbours(closests[i],true);
                 break;

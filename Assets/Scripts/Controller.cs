@@ -22,6 +22,12 @@ public class Controller : SingletonMonoBehaviour<Controller>
     int coins = 100;
     Hex hexToShow;
     Hex nextHexToPlace;
+    bool isInPlayMode;
+    [SerializeField] int gridSizeX;
+    [SerializeField] int gridSizeZ;
+    [SerializeField] float gridChanceToSpawnExtraHexes;
+
+    #region public variables
     public int Coins {
         get { return coins; }
         set {
@@ -47,10 +53,6 @@ public class Controller : SingletonMonoBehaviour<Controller>
         get { return playerController; }
     }
 
-    #region events
-    public static Action hexMode;
-    public static Action playMode;
-    #endregion
 
     public Transform PlayerTransform {
         get { return playerController.transform; }
@@ -59,7 +61,11 @@ public class Controller : SingletonMonoBehaviour<Controller>
         get { return currentOperationType; }
         set { currentOperationType = value; }
     }
-    bool isInPlayMode;
+    #endregion
+    #region events
+    public static Action hexMode;
+    public static Action playMode;
+    #endregion
     Plane plane = new Plane(Vector3.up, 0);
 
     public bool IsInPlayerMode {
@@ -71,7 +77,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
 #if UNITY_EDITOR
         //Cursor.SetCursor(PlayerSettings.defaultCursor, Vector2.zero, CursorMode.ForceSoftware);
 #endif
-        hexGrid.GenerateGrid(5,5, .1f);
+        hexGrid.GenerateGrid(gridSizeX, gridSizeZ, gridChanceToSpawnExtraHexes);
         StartGame();
     }
 
@@ -122,15 +128,18 @@ public class Controller : SingletonMonoBehaviour<Controller>
         
     }
 
-    public void StartShowingNewHex() {
-        nextHexToPlace = null;
-        if (hexToShow) Destroy(hexToShow.gameObject);
+    public void GenerateNextHex() {
+        //nextHexToPlace = null;
         nextHexToPlace = hexCollection.GetHex();
+    }
+
+    public void StartShowingNewHex() {
+        if (hexToShow) Destroy(hexToShow.gameObject);
         hexToShow = Instantiate(nextHexToPlace, new Vector3(0,-1000,0), Quaternion.identity);
         hexToShow.SetupOnlyForShow();
     }
     public void StopShowingNewHex() {
-        nextHexToPlace = null;
+        //nextHexToPlace = null;
         if(hexToShow) Destroy(hexToShow.gameObject);
     }
 
@@ -143,6 +152,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
         //Cursor.visible = false;
     }
     public void SwitchToHexMode() {
+        GenerateNextHex();
         isInPlayMode = false;
         playerCam.Priority = 0;
         hexCam.Priority = 10;

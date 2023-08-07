@@ -13,8 +13,9 @@ public class Bomb : MonoBehaviour,IDamageable
         rb = GetComponent<Rigidbody>();
     }
     private void OnTriggerEnter(Collider other) {
-        if (other.GetComponent<PlayerController>()) {
+        if (other.TryGetComponent(out PlayerController player)) {
             if (!collected) {
+                player.NumOfBombs++;
                 Destroy(gameObject);
             }
         }

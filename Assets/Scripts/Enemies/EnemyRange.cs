@@ -26,21 +26,19 @@ public class EnemyRange : Enemy {
         Shoot();
     }
 
+    public override void ChasePlayer() {
+        base.ChasePlayer();
+        Shoot();
+    }
+
     private void Shoot() {
-        //StartCoroutine(GoBackToChasing());
-        //navMeshAgent.SetDestination(transform.position);
        timeSinceLastShot += Time.deltaTime;
         if (CanShoot()) {
             Bullet bull = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
             bull.transform.localScale = Vector3.zero;
-            bull.Speed = bulletSpeed;
+            //bull.Speed = bulletSpeed;
             bull.Setup(Controller.Instance.PlayerTransform.position, transform.position, bulletDmg, false);
             timeSinceLastShot = 0;
         }
-    }
-
-    IEnumerator GoBackToChasing() {
-        yield return new WaitForSeconds(.5f);
-        navMeshAgent.SetDestination(player.position);
     }
 }

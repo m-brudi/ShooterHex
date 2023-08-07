@@ -13,7 +13,6 @@ public class Bullet : MonoBehaviour {
     SphereCollider coll;
     [SerializeField] LayerMask layerToNotCollide;
     public float Speed{
-       
         set { speed = value; }
     }
     bool allSet = false;
@@ -59,7 +58,6 @@ public class Bullet : MonoBehaviour {
 
     void DeleteOnHexView() {
         StopAllCoroutines();
-        
         if (gameObject) Destroy(gameObject);
     }
 

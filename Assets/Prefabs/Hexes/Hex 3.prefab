@@ -64,7 +64,7 @@ Transform:
   m_LocalScale: {x: 60, y: 60, z: 60}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7269667360676258218}
+  - {fileID: 173136579836236388}
   - {fileID: 4859298117738260920}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -95,8 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd5e0c5ce4ce284583a6bc1eb5e75ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground: {fileID: 3053925511437668332}
-  groundCollider: {fileID: 496045685348450669}
+  ground: {fileID: 5541019830211132450}
+  groundCollider: {fileID: 6946344838817165987}
   myCell: {fileID: 0}
   objects: {fileID: 4859298117738260920}
   enemies: []
@@ -108,7 +108,7 @@ MonoBehaviour:
   - {fileID: 7006172893936946413}
   - {fileID: 452222672417097161}
   - {fileID: 9175041015878547016}
-  decorations: {fileID: 8108563244676745320}
+  enviro: {fileID: 8108563244676745320}
   enemiesParent: {fileID: 5947888839688791315}
   enemyPrefab: {fileID: 7883481142980803586, guid: 8cdb47b001da50849810aaa1c49e38ce,
     type: 3}
@@ -157,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8108563244676745320}
   m_Layer: 0
-  m_Name: Decorations
+  m_Name: Enviro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,7 +285,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e8ada21d1b5e43842a16524c1f2743a1, type: 2}
+      objectReference: {fileID: 2100000, guid: e3330c3021b1c104ba0bba8116ed687e, type: 2}
     - target: {fileID: 64238574145938260, guid: 4b9efef89fc1b8f4f984fa521ca2fc95,
         type: 3}
       propertyPath: m_Convex
@@ -535,7 +535,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e8ada21d1b5e43842a16524c1f2743a1, type: 2}
+      objectReference: {fileID: 2100000, guid: e3330c3021b1c104ba0bba8116ed687e, type: 2}
     - target: {fileID: 64238574145938260, guid: 4b9efef89fc1b8f4f984fa521ca2fc95,
         type: 3}
       propertyPath: m_Convex
@@ -1005,21 +1005,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43fd81e2519bd6e469ca35b9e46a8ab9, type: 3}
---- !u!64 &496045685348450669 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 9144990219468764038, guid: 43fd81e2519bd6e469ca35b9e46a8ab9,
-    type: 3}
-  m_PrefabInstance: {fileID: 8650226085320209131}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &3053925511437668332 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5938699629933296903, guid: 43fd81e2519bd6e469ca35b9e46a8ab9,
-    type: 3}
-  m_PrefabInstance: {fileID: 8650226085320209131}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7269667360676258218 stripped
+--- !u!4 &173136579836236388 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2083140474738578241, guid: 43fd81e2519bd6e469ca35b9e46a8ab9,
+  m_CorrespondingSourceObject: {fileID: 8821667690060439695, guid: 43fd81e2519bd6e469ca35b9e46a8ab9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8650226085320209131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5541019830211132450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3814107871293279945, guid: 43fd81e2519bd6e469ca35b9e46a8ab9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8650226085320209131}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &6946344838817165987 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 1760231361744240712, guid: 43fd81e2519bd6e469ca35b9e46a8ab9,
     type: 3}
   m_PrefabInstance: {fileID: 8650226085320209131}
   m_PrefabAsset: {fileID: 0}
@@ -1094,7 +1094,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e8ada21d1b5e43842a16524c1f2743a1, type: 2}
+      objectReference: {fileID: 2100000, guid: e3330c3021b1c104ba0bba8116ed687e, type: 2}
     - target: {fileID: 64238574145938260, guid: 4b9efef89fc1b8f4f984fa521ca2fc95,
         type: 3}
       propertyPath: m_Convex

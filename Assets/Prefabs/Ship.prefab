@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   terraformSphere: {fileID: 8121915079546135889}
+  partOfShip: {fileID: 0}
 --- !u!135 &5041337873397969101
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -89,8 +90,8 @@ Transform:
   m_GameObject: {fileID: 7800260167048289259}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0011516891, y: 0.10000064, z: 0.00040202145}
-  m_LocalScale: {x: 0.08782, y: 1.7564, z: 0.08782}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5232984964467664407}
   - {fileID: 8178946658423906354}
@@ -125,7 +126,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2fb4c173f4b79e047934249880b3449c, type: 2}
+  - {fileID: 2100000, guid: 3092c37584494114f9439eb3d3636e57, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -188,8 +189,8 @@ Transform:
   m_GameObject: {fileID: 8780471055907419830}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.90397996, z: 0.045199003}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3133630360031335209}
   m_RootOrder: 0
@@ -265,7 +266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4634219296780586, guid: 2497c47670e702543a4c20c4c442311f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5190641
+      value: 0.209977
       objectReference: {fileID: 0}
     - target: {fileID: 4634219296780586, guid: 2497c47670e702543a4c20c4c442311f, type: 3}
       propertyPath: m_LocalScale.z
@@ -319,7 +320,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 229dc1cb94a833c478c313d4165ac01d, type: 2}
+      objectReference: {fileID: 2100000, guid: c3d9849376ed86b4ea281e7209226bca, type: 2}
     - target: {fileID: 64658794619467086, guid: 2497c47670e702543a4c20c4c442311f,
         type: 3}
       propertyPath: m_Enabled
