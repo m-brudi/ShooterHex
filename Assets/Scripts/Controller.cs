@@ -11,23 +11,29 @@ public class Controller : SingletonMonoBehaviour<Controller>
     public HexGrid hexGrid;
     public HexGrid.HexOperationType currentOperationType;
     public HexCollection hexCollection;
+    public int costOfNewHex;
+    public int costOfOperation;
     [SerializeField] CinemachineVirtualCamera playerCam;
     [SerializeField] CinemachineVirtualCamera hexCam;
     [SerializeField] PlayerController playerController;
     [SerializeField] Transform startingHexObjects;
     [SerializeField] Transform playerStartPos;
-    public int costOfNewHex;
-    public int costOfOperation;
+    [SerializeField] int gridSizeX;
+    [SerializeField] int gridSizeZ;
+    [SerializeField] float gridChanceToSpawnExtraHexes;
     bool canTerraform;
     int coins = 100;
     Hex hexToShow;
     Hex nextHexToPlace;
     bool isInPlayMode;
-    [SerializeField] int gridSizeX;
-    [SerializeField] int gridSizeZ;
-    [SerializeField] float gridChanceToSpawnExtraHexes;
+    [SerializeField] List<MineEntry> mines;
+    Plane plane = new Plane(Vector3.up, 0);
 
     #region public variables
+    public List<MineEntry> Mines {
+        get { return mines; }
+        set { mines = value; }
+    }
     public int Coins {
         get { return coins; }
         set {
@@ -35,7 +41,6 @@ public class Controller : SingletonMonoBehaviour<Controller>
             UiManager.Instance.SetupCoinsCounter(coins);     
         }
     }
-
     public bool IsPlayerDead {
         get { return playerController.dead; }
     }
@@ -61,22 +66,19 @@ public class Controller : SingletonMonoBehaviour<Controller>
         get { return currentOperationType; }
         set { currentOperationType = value; }
     }
+    public bool IsInPlayerMode {
+        get { return isInPlayMode; }
+    }
     #endregion
     #region events
     public static Action hexMode;
     public static Action playMode;
     #endregion
-    Plane plane = new Plane(Vector3.up, 0);
 
-    public bool IsInPlayerMode {
-        get { return isInPlayMode; }
-    }
+
     void Start()
     {
         UiManager.Instance.SetupCoinsCounter(coins);
-#if UNITY_EDITOR
-        //Cursor.SetCursor(PlayerSettings.defaultCursor, Vector2.zero, CursorMode.ForceSoftware);
-#endif
         hexGrid.GenerateGrid(gridSizeX, gridSizeZ, gridChanceToSpawnExtraHexes);
         StartGame();
     }
@@ -91,7 +93,6 @@ public class Controller : SingletonMonoBehaviour<Controller>
         playerController.StartGame();
         SwitchToPlayMode();
     }
-
 
     void Update(){
         if (Input.GetKeyDown(KeyCode.Tab) && canTerraform) {
@@ -126,6 +127,16 @@ public class Controller : SingletonMonoBehaviour<Controller>
         if (Input.GetKeyDown(KeyCode.Alpha2)) currentOperationType = HexGrid.HexOperationType.RotateAround;
         if (Input.GetKeyDown(KeyCode.Alpha3)) currentOperationType = HexGrid.HexOperationType.SwitchPlace;
         
+    }
+
+    public void MovePlayerToOtherMine(MineEntry enter) {
+        if(mines.Count > 1) {
+            List<MineEntry> m = mines.FindAll(x => x != enter);
+            MineEntry mine = m[UnityEngine.Random.Range(0, m.Count)];
+            mine.IgnoreTrigger();
+            Vector3 pos = mine.spawnPos.position;
+            playerController.transform.position = pos;
+        }
     }
 
     public void GenerateNextHex() {

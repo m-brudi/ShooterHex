@@ -2414,16 +2414,17 @@ MonoBehaviour:
   hexGrid: {fileID: 375993828}
   currentOperationType: 0
   hexCollection: {fileID: 11400000, guid: a4e18d74133b13e4a92b2ca7f2f0447d, type: 2}
+  costOfNewHex: 10
+  costOfOperation: 10
   playerCam: {fileID: 1517236388}
   hexCam: {fileID: 106719811}
   playerController: {fileID: 1683494702}
   startingHexObjects: {fileID: 1454365382}
   playerStartPos: {fileID: 1117590104}
-  costOfNewHex: 10
-  costOfOperation: 10
-  gridSizeX: 10
-  gridSizeZ: 10
+  gridSizeX: 7
+  gridSizeZ: 7
   gridChanceToSpawnExtraHexes: 0.1
+  mines: []
 --- !u!1 &1454365381
 GameObject:
   m_ObjectHideFlags: 0
