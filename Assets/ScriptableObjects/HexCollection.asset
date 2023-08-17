@@ -20,3 +20,5 @@ MonoBehaviour:
   - {fileID: 8369864442938614590, guid: d114908b2f6330d45925b92a6fe1058b, type: 3}
   startingHex: {fileID: 8369864442938614590, guid: a612f2ac8af89014a9843d111d242771,
     type: 3}
+  endingHex: {fileID: 8369864442938614590, guid: 85d7c652b329b0244bc33f4351b590ed,
+    type: 3}

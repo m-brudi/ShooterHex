@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class HexGrid : MonoBehaviour
 {
+    
     public enum HexOperationType {
         Nothing,
         NewHex,
@@ -18,14 +19,14 @@ public class HexGrid : MonoBehaviour
     [SerializeField] float zOffset;
 
     [Space]
-    [SerializeField] int xSizeOfGrid;
-    [SerializeField] int zSizeOfGrid;
-
     [SerializeField] List<GridCell> cells = new List<GridCell>();
     [SerializeField] List<GridCell> closests = new List<GridCell>();
     [SerializeField] List<GridCell> takenCells = new List<GridCell>();
 
-    public Hex firstToSwitch;
+    GridCell startingCell;
+    GridCell endingCell;
+
+    public Hex firstToSwitch;   
 
     public void GenerateGrid(int sizeX, int sizeZ, float chance) {
         for (int i = 0; i < sizeZ; i++) {
@@ -38,8 +39,13 @@ public class HexGrid : MonoBehaviour
         }
 
         ChooseStartHex(sizeX, sizeZ);
-
         GenerateExtraHexes(sizeX,sizeZ,chance);
+
+        foreach (var cell in cells.ToArray()) {
+            cell.DistanceFromStart = GetDistanceBetweenCells(cell, startingCell);
+        }
+        PlaceEndingHex();
+
         foreach (var cell in cells.ToArray()) {
             AddNeighbours(cell, true);
         }
@@ -48,12 +54,31 @@ public class HexGrid : MonoBehaviour
     }
 
     void ChooseStartHex(int sizeX, int sizeZ) {
-        int randX = Random.Range(Mathf.FloorToInt(sizeX / 4), sizeX - Mathf.FloorToInt(sizeX / 4));
-        int randZ = Random.Range(Mathf.FloorToInt(sizeZ / 4), sizeZ - Mathf.FloorToInt(sizeZ / 4));
+        //int randX = Random.Range(Mathf.FloorToInt(sizeX / 4), sizeX - Mathf.FloorToInt(sizeX / 4));
+        //int randZ = Random.Range(Mathf.FloorToInt(sizeZ / 4), sizeZ - Mathf.FloorToInt(sizeZ / 4));
+        int randX = Random.Range(0, sizeX);
+        int randZ = Random.Range(0, sizeZ);
         GridCell cell = cells.Find(x => x.XCoordinate == randX && x.ZCoordinate == randZ);
+        startingCell = cell;
         cell.startingCell = true;
         cell.CreateHex(Controller.Instance.hexCollection.GetStartingHex());
         Controller.Instance.SetupStartingHex(cell);
+    }
+
+    public int GetDistanceBetweenCells(GridCell cell, GridCell cell2) {
+        Vector3 cellCube = ConvertToCube(cell.XCoordinate, cell.ZCoordinate);
+        Vector3 cell2Cube = ConvertToCube(cell2.XCoordinate, cell2.ZCoordinate);
+        Vector3 sub = new (cellCube.x - cell2Cube.x, cellCube.y - cell2Cube.y, cellCube.z - cell2Cube.z);
+        int dist = (int)(Mathf.Abs(sub.x) + Mathf.Abs(sub.y) + Mathf.Abs(sub.z)) / 2;
+        return dist;
+    }
+
+    Vector3 ConvertToCube(int x, int z) {
+        int q = x - (z - (z&1)) / 2;
+        int r = z;
+        int s = -q - r;
+        Vector3 cube = new(q, r, s);
+        return cube;
     }
 
     void GenerateExtraHexes(int sizeX, int sizeZ, float chance) {
@@ -74,6 +99,12 @@ public class HexGrid : MonoBehaviour
             AddNeighbours(cell, false);
         }
 
+        
+    }
+    void PlaceEndingHex() {
+        GridCell furthest = cells.OrderByDescending(x => x.DistanceFromStart).FirstOrDefault();
+        endingCell = furthest;
+        furthest.CreateHex(Controller.Instance.hexCollection.GetEndingHex());
     }
 
     GridCell CreateCell(Vector3 pos,int xCoordinate, int zCoordinate, bool createHex) {
@@ -242,7 +273,7 @@ public class HexGrid : MonoBehaviour
         for (int i = 0; i < closests.Count; i++) {
             if (!closests[i].Taken) {
                 closests[i].CreateHex(hexToSpawn);
-                Controller.Instance.Coins -= Controller.Instance.costOfNewHex;
+                Controller.Instance.Coins -= Controller.Instance.CostOfNewHex;
                 Controller.Instance.GenerateNextHex();
                 Controller.Instance.StartShowingNewHex();
                 AddNeighbours(closests[i],true);

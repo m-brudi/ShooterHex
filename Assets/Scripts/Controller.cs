@@ -11,8 +11,10 @@ public class Controller : SingletonMonoBehaviour<Controller>
     public HexGrid hexGrid;
     public HexGrid.HexOperationType currentOperationType;
     public HexCollection hexCollection;
-    public int costOfNewHex;
-    public int costOfOperation;
+    [SerializeField] int costOfNewHex;
+    [SerializeField] int costOfSingleRotate;
+    [SerializeField] int costOfRotateAround;
+    [SerializeField] int costOfSwitchPlace;
     [SerializeField] CinemachineVirtualCamera playerCam;
     [SerializeField] CinemachineVirtualCamera hexCam;
     [SerializeField] PlayerController playerController;
@@ -22,7 +24,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
     [SerializeField] int gridSizeZ;
     [SerializeField] float gridChanceToSpawnExtraHexes;
     bool canTerraform;
-    int coins = 100;
+    int coins = 10;
     Hex hexToShow;
     Hex nextHexToPlace;
     bool isInPlayMode;
@@ -30,6 +32,23 @@ public class Controller : SingletonMonoBehaviour<Controller>
     Plane plane = new Plane(Vector3.up, 0);
 
     #region public variables
+
+    public int CostOfNewHex {
+        get { return costOfNewHex; }
+        private set { }
+    }
+    public int CostOfSingleRotate {
+        get { return costOfSingleRotate; }
+        private set { }
+    }
+    public int CostOfRotateAround {
+        get { return costOfRotateAround; }
+        private set { }
+    }
+    public int CostOfSwitchPlace {
+        get { return costOfSwitchPlace; }
+        private set { }
+    }
     public List<MineEntry> Mines {
         get { return mines; }
         set { mines = value; }
@@ -47,8 +66,14 @@ public class Controller : SingletonMonoBehaviour<Controller>
     public bool CanPlaceNewHex {
         get { return coins >= costOfNewHex; }
     }
-    public bool CanManipulateHex {
-        get { return coins >= costOfOperation; }
+    public bool CanSingleRotate {
+        get { return coins >= CostOfSingleRotate; }
+    }
+    public bool CanRotateAround {
+        get { return coins >= CostOfRotateAround; }
+    }
+    public bool CanSwitchPlace {
+        get { return coins >= CostOfSwitchPlace; }
     }
     public bool CanTerraform {
         get { return canTerraform; }
@@ -118,6 +143,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
                 if (Input.GetMouseButtonDown(0)) {
                     if (CanPlaceNewHex) {
                         hexGrid.CreateHexOnMousePosition(mousePos, nextHexToPlace);
+                        
                     }
                 }
             }
@@ -145,9 +171,11 @@ public class Controller : SingletonMonoBehaviour<Controller>
     }
 
     public void StartShowingNewHex() {
-        if (hexToShow) Destroy(hexToShow.gameObject);
-        hexToShow = Instantiate(nextHexToPlace, new Vector3(0,-1000,0), Quaternion.identity);
-        hexToShow.SetupOnlyForShow();
+        if (CanPlaceNewHex) {
+            if (hexToShow) Destroy(hexToShow.gameObject);
+            hexToShow = Instantiate(nextHexToPlace, new Vector3(0, -1000, 0), Quaternion.identity);
+            hexToShow.SetupOnlyForShow();
+        }
     }
     public void StopShowingNewHex() {
         //nextHexToPlace = null;

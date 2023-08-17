@@ -10,7 +10,7 @@ public class GridCell : MonoBehaviour
     [SerializeField] int zCoordinate;
     [SerializeField] Hex hexPrefab;
     [SerializeField] Hex myHex;
-
+    [SerializeField] int distFromStart;
     public List<GridCell> neighbours = new List<GridCell>(); // [0] east then clockwise
     public Hex MyHex {
         get { return myHex; }
@@ -18,6 +18,11 @@ public class GridCell : MonoBehaviour
             myHex = value;
             if (value != null) taken = true;
         }
+    }
+
+    public int DistanceFromStart {
+        get { return distFromStart; }
+        set { distFromStart = value; }
     }
     public bool Taken {
         get { return taken; }
@@ -34,6 +39,11 @@ public class GridCell : MonoBehaviour
 
     public void CreateHex(Hex hexToSpawn) {
         Hex hex;
+        if (myHex) {
+            Hex h = myHex;
+            Destroy(h.gameObject);
+            myHex = null;
+        }
         hex = Instantiate(hexToSpawn, transform.position, Quaternion.identity);
         hex.Setup(this);
         myHex = hex;

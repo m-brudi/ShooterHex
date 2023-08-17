@@ -7,6 +7,7 @@ public class HexCollection : ScriptableObject
 {
     [SerializeField] List<Hex> hexes;
     [SerializeField] Hex startingHex;
+    [SerializeField] Hex endingHex;
     int hexIndex = 0;
     public Hex GetHex() {
         hexIndex++;
@@ -16,5 +17,9 @@ public class HexCollection : ScriptableObject
 
     public Hex GetStartingHex() {
         return startingHex;
+    }
+
+    public Hex GetEndingHex() {
+        return endingHex;
     }
 }

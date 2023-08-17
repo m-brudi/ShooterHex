@@ -103,18 +103,27 @@ public class Hex : MonoBehaviour
     }
 
     private void OnMouseDown() {
-        if (hexMode && Controller.Instance.CanManipulateHex) {
-            if (Controller.Instance.CurrentOperation == HexGrid.HexOperationType.RotateSingle) {
-                if (!myCell.startingCell) Rotate();
+        if (hexMode) {
+            if (Controller.Instance.CanSingleRotate) {
+                if (Controller.Instance.CurrentOperation == HexGrid.HexOperationType.RotateSingle) {
+                    if (!myCell.startingCell) {
+                        Rotate();
+                        Controller.Instance.Coins -= Controller.Instance.CostOfSingleRotate;
+                    }
+                }
             }
-            if (Controller.Instance.CurrentOperation == HexGrid.HexOperationType.RotateAround) {
-                Controller.Instance.hexGrid.RotateAround(myCell);
-                Controller.Instance.Coins -= Controller.Instance.costOfOperation;
+            if (Controller.Instance.CanRotateAround) {
+                if (Controller.Instance.CurrentOperation == HexGrid.HexOperationType.RotateAround) {
+                    Controller.Instance.hexGrid.RotateAround(myCell);
+                    Controller.Instance.Coins -= Controller.Instance.CostOfRotateAround;
+                }
             }
-            if (Controller.Instance.CurrentOperation == HexGrid.HexOperationType.SwitchPlace) {
-                if (!myCell.startingCell) {
-                    Controller.Instance.hexGrid.SwitchPlace(myCell);
-                    Controller.Instance.Coins -= Controller.Instance.costOfOperation;
+            if (Controller.Instance.CanSwitchPlace) {
+                if (Controller.Instance.CurrentOperation == HexGrid.HexOperationType.SwitchPlace) {
+                    if (!myCell.startingCell) {
+                        Controller.Instance.hexGrid.SwitchPlace(myCell);
+                        Controller.Instance.Coins -= Controller.Instance.CostOfSwitchPlace;
+                    }
                 }
             }
         }
@@ -126,7 +135,6 @@ public class Hex : MonoBehaviour
 
     void Rotate() {
         if (actionDone) {
-            Controller.Instance.Coins -= Controller.Instance.costOfOperation;
             actionDone = false;
             transform.DOMoveY(15, .8f).SetEase(Ease.InCubic).OnComplete(() => {
                 Quaternion newRot = transform.rotation * Quaternion.Euler(0, 60, 0);
