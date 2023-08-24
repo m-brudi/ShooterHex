@@ -98,9 +98,8 @@ public class HexGrid : MonoBehaviour
         foreach (var cell in cells.ToArray()) {
             AddNeighbours(cell, false);
         }
-
-        
     }
+
     void PlaceEndingHex() {
         GridCell furthest = cells.OrderByDescending(x => x.DistanceFromStart).FirstOrDefault();
         endingCell = furthest;
@@ -162,9 +161,6 @@ public class HexGrid : MonoBehaviour
         AddNeighbours(c,false);
         return c;
     }
-
-    
-
     public void RotateAround(GridCell cell) {
         List<GridCell> cells = cell.neighbours;
         GridCell first = cells[0];

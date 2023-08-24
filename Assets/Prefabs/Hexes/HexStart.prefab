@@ -150,7 +150,7 @@ MonoBehaviour:
   - {fileID: 4600752492144981374}
   enviro: {fileID: 442735860465171880}
   enemiesParent: {fileID: 4541959036549978413}
-  enemyPrefab: {fileID: 6723590001412002485, guid: 69e8fc1290477d24bac333b6594eeed5,
+  enemyPrefab: {fileID: 6723590001412002485, guid: 564f0d1e703cbe94c918b583632aa798,
     type: 3}
 --- !u!1 &3735206859524350821
 GameObject:

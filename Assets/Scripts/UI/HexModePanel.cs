@@ -52,10 +52,10 @@ public class HexModePanel : MonoBehaviour
         rotateSingleBtn.interactable = Controller.Instance.CanSingleRotate;
         switchPlaceBtn.interactable = Controller.Instance.CanSwitchPlace;
 
-        newHexPrice.color = newHexBtn.interactable ? activeColor : inactiveColor;
-        singleRotatePrice.color = rotateAroundBtn.interactable ? activeColor : inactiveColor;
-        rotateAroundPrice.color = rotateSingleBtn.interactable ? activeColor : inactiveColor;
-        switchPlacePrice.color = switchPlaceBtn.interactable ? activeColor : inactiveColor;
+        newHexPrice.color = Controller.Instance.CanPlaceNewHex ? activeColor : inactiveColor;
+        singleRotatePrice.color = Controller.Instance.CanRotateAround ? activeColor : inactiveColor;
+        rotateAroundPrice.color = Controller.Instance.CanSingleRotate ? activeColor : inactiveColor;
+        switchPlacePrice.color = Controller.Instance.CanSwitchPlace ? activeColor : inactiveColor;
 
         newHexPrice.text = Controller.Instance.CostOfNewHex.ToString();
         rotateAroundPrice.text = Controller.Instance.CostOfRotateAround.ToString();
