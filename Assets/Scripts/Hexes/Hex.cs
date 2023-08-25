@@ -14,6 +14,7 @@ public class Hex : MonoBehaviour
     [SerializeField] Transform enviro;
     [SerializeField] Transform enemiesParent;
     [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject[] enemiesPrefabs;
     bool hexMode;
     MeshCollider myClickCollider;
     //Quaternion enemiesRot;
@@ -78,7 +79,8 @@ public class Hex : MonoBehaviour
         foreach (var item in spawnPoints) {
             float chance = Random.value;
             if(chance > .3f) {
-                GameObject e = Instantiate(enemyPrefab, item.transform.position, Quaternion.identity, enemiesParent);
+                //GameObject e = Instantiate(enemyPrefab, item.transform.position, Quaternion.identity, enemiesParent);
+                GameObject e = Instantiate(enemiesPrefabs[Random.Range(0,enemiesPrefabs.Length)], item.transform.position, Quaternion.identity, enemiesParent);
                 enemies.Add(e);
             }
         }
