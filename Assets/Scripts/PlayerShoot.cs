@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using MoreMountains.Feedbacks;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] GunData gunData;
     [SerializeField] Bullet bullet;
     [SerializeField] private KeyCode reloadKey;
+
+    [SerializeField] MMFeedbacks shootFeedback;
     float timeSinceLastShot;
     private bool CanShoot() => !gunData.reloading && timeSinceLastShot > 1f / (gunData.fireRate / 60f);
 
@@ -54,6 +57,7 @@ public class PlayerShoot : MonoBehaviour
     }
 
     void ShootBullet(Vector3 pos) {
+        shootFeedback?.PlayFeedbacks();
         gunData.currentAmmo--;
         if (gunData.currentAmmo == 0) StartReload();
         timeSinceLastShot = 0;

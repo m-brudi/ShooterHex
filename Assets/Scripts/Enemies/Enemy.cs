@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using TMPro;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
@@ -28,6 +29,10 @@ public class Enemy : MonoBehaviour, IDamageable
     public float myScale;
     public bool dead;
     public bool playerInSightRange, playerInAttackRange;
+
+    [Space]
+    [Header("Effects")]
+    public GameObject floatingText;
 
     [Space]
     [Header("Patrolling")]
@@ -66,9 +71,9 @@ public class Enemy : MonoBehaviour, IDamageable
         shadowSphere.SetActive(false);
         coll.enabled = false;
         rb.isKinematic = true;
-        sprite.GetComponent<SpriteRenderer>().DOFade(0,2);
-        yield return new WaitForSeconds(2);
+        //sprite.GetComponent<SpriteRenderer>().DOFade(0,2);
         Destroy(gameObject);
+        yield return new WaitForSeconds(2);
     }
 
     void SpawnCoins() {
@@ -79,7 +84,7 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-    void Update()
+    public virtual void Update()
     {
         if (!dead) {
             if (Controller.Instance.IsInPlayerMode) {
@@ -137,18 +142,20 @@ public class Enemy : MonoBehaviour, IDamageable
 
     }
 
-    //private void OnDrawGizmosSelected() {
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawWireSphere(transform.position, attackRange);
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawWireSphere(transform.position, sightRange);
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawWireSphere(transform.position, walkPointRange);
-    //}
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, walkPointRange);
+    }
 
     public void Damage(int damage, Vector3 pos) {
         if (!dead) {
+            var text = Instantiate(floatingText, transform.position, Quaternion.identity, transform);
             Health -= (int)damage;
+            text.GetComponent<TextMeshPro>().text = Health.ToString();
             Vector3 dir = transform.position - pos;
             dir.Normalize();
             rb.AddForce(dir * 4, ForceMode.Impulse);

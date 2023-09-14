@@ -21,7 +21,24 @@ public class Bullet : MonoBehaviour {
     }
 
     public void Setup(Vector3 dir, Vector3 origin, int dmg, bool shotByPlayer) {
-        StartCoroutine(DestroyAfterSomeTime(5));
+        StartCoroutine(DestroyAfterSomeTime(3));
+        damage = dmg;
+        coll = GetComponent<SphereCollider>();
+        transform.DOScale(1, 0.2f);
+        sr.material = shotByPlayer ? shotByPlayerMat : shotByEnemyMat;
+        Vector3 direction = (dir - origin).normalized;
+        Vector3 force = direction * speed;
+        rb.AddForce(force, ForceMode.VelocityChange);
+        transform.rotation = Quaternion.LookRotation(direction);
+        if (shotByPlayer) {
+            layerToNotCollide = 7; //playerLayer
+        } else {
+            layerToNotCollide = 8; //enemyLayer
+        }
+        allSet = true;
+    }
+    public void Setup(Vector3 dir, Vector3 origin, int dmg, bool shotByPlayer, float speed) {
+        StartCoroutine(DestroyAfterSomeTime(3));
         damage = dmg;
         coll = GetComponent<SphereCollider>();
         transform.DOScale(1, 0.2f);

@@ -74,6 +74,8 @@ MonoBehaviour:
   dead: 0
   playerInSightRange: 0
   playerInAttackRange: 0
+  floatingText: {fileID: 1728787351473024953, guid: df3047c431d36cb4eb49493564d0c067,
+    type: 3}
   walkPointRange: 4
   sightRange: 10
   attackRange: 2

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-
+using UnityEngine.Search;
 public class Hex : MonoBehaviour
 {
     [SerializeField] GameObject ground;
@@ -80,8 +80,10 @@ public class Hex : MonoBehaviour
             float chance = Random.value;
             if(chance > .3f) {
                 //GameObject e = Instantiate(enemyPrefab, item.transform.position, Quaternion.identity, enemiesParent);
-                GameObject e = Instantiate(enemiesPrefabs[Random.Range(0,enemiesPrefabs.Length)], item.transform.position, Quaternion.identity, enemiesParent);
-                enemies.Add(e);
+                if (enemiesPrefabs.Length > 0) {
+                    GameObject e = Instantiate(enemiesPrefabs[Random.Range(0, enemiesPrefabs.Length)], item.transform.position, Quaternion.identity, enemiesParent);
+                    enemies.Add(e);
+                }
             }
         }
     }
