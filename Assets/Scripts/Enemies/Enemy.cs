@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour, IDamageable
     [Space]
     [Header("Enemy data")]
     [SerializeField] int patrollingSpeed;
-    [SerializeField] int chasingSpeed;
+    public int chasingSpeed;
     [SerializeField] int health;
     [SerializeField] int numOfCoinsToDrop;
     [SerializeField] float coinSpreadForceMultiplier;
@@ -54,7 +54,7 @@ public class Enemy : MonoBehaviour, IDamageable
             if (health <= 0) {
                 StartCoroutine(Death());
             } else {
-                anim.SetTrigger("TakeHit");
+                anim?.SetTrigger("TakeHit");
             }
         }
     }
@@ -66,8 +66,8 @@ public class Enemy : MonoBehaviour, IDamageable
     IEnumerator Death() {
         dead = true;
         SpawnCoins();
-        anim.SetFloat("Move", 0);
-        anim.SetTrigger("Death");
+        anim?.SetFloat("Move", 0);
+        anim?.SetTrigger("Death");
         shadowSphere.SetActive(false);
         coll.enabled = false;
         rb.isKinematic = true;
@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour, IDamageable
                 playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
                 Vector3 normalizedMovement = navMeshAgent.desiredVelocity.normalized;
-                anim.SetFloat("Move", normalizedMovement.magnitude);
+                anim?.SetFloat("Move", normalizedMovement.magnitude);
 
                 if (navMeshAgent.destination.x > transform.position.x) {
                     sprite.localScale = myScale * Vector3.one;
@@ -122,6 +122,10 @@ public class Enemy : MonoBehaviour, IDamageable
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
         if (distanceToWalkPoint.magnitude < 1f) walkPointSet = false;
     }
+    public virtual void ChasePlayer() {
+        navMeshAgent.SetDestination(player.position);
+        navMeshAgent.speed = chasingSpeed;
+    }
 
     public virtual void SearchWalkPoint() {
         float randomZ = Random.Range(-walkPointRange, walkPointRange);
@@ -131,12 +135,6 @@ public class Enemy : MonoBehaviour, IDamageable
             walkPointSet = true;
     }
 
-
-
-    public virtual void ChasePlayer() {
-        navMeshAgent.SetDestination(player.position);
-        navMeshAgent.speed = chasingSpeed;
-    }
 
     public virtual void AttackPlayer() {
 

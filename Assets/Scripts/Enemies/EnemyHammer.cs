@@ -6,13 +6,15 @@ using UnityEngine.AI;
 public class EnemyHammer : Enemy
 {
     [Header("Shooting")]
-    [SerializeField] float shootingRange; //lets use sight range for now
-    [SerializeField] float fireRate = 200;
-    [SerializeField] float timeSinceLastShot;
-    [SerializeField] int bulletDmg = 2;
-    [SerializeField] float bulletSpeed;
-    [SerializeField] GameObject bulletPrefab;
-    public bool CanShoot() => timeSinceLastShot > 1f / (fireRate / 60f);
+    [SerializeField] float attackRate = 10;
+    [SerializeField] float timeSinceLastAttack;
+    [SerializeField] int attackDmg = 5;
+    //[SerializeField] float 
+    [Header("Effects")]
+    [SerializeField] ParticleSystem attackEffect;
+    [SerializeField] ParticleSystem walkEffect;
+
+    public bool CanAttack() => timeSinceLastAttack > 1f / (attackRate / 60f);
 
     void Start() {
         rb = GetComponent<Rigidbody>();
@@ -22,24 +24,40 @@ public class EnemyHammer : Enemy
         player = Controller.Instance.PlayerTransform;
         myScale = sprite.transform.localScale.x;
     }
+    public override void Patroling() {
+        //pick a walkPoint
+        //jump to its location
+        //repeat
+
+
+        //if (!walkPointSet) SearchWalkPoint();
+        //if (navMeshAgent.speed < 0.1f) SearchWalkPoint();
+        //if (walkPointSet) {
+        //    navMeshAgent.SetDestination(walkPoint);
+        //    navMeshAgent.speed = patrollingSpeed;
+        //}
+        //Vector3 distanceToWalkPoint = transform.position - walkPoint;
+        //if (distanceToWalkPoint.magnitude < 1f) walkPointSet = false;
+    }
 
     public override void AttackPlayer() {
-        Shoot();
+        Attack();
     }
 
     public override void ChasePlayer() {
-        base.ChasePlayer();
-        Shoot();
+        navMeshAgent.SetDestination(player.position);
+        navMeshAgent.speed = base.chasingSpeed;
+        Attack();
     }
 
-    private void Shoot() {
-        timeSinceLastShot += Time.deltaTime;
-        if (CanShoot()) {
-            Bullet bull = Instantiate(bulletPrefab, transform.position, Quaternion.identity).GetComponent<Bullet>();
-            bull.transform.localScale = Vector3.zero;
-            //bull.Speed = bulletSpeed;
-            bull.Setup(Controller.Instance.PlayerTransform.position, transform.position, bulletDmg, false);
-            timeSinceLastShot = 0;
+    private void Attack() {
+        timeSinceLastAttack += Time.deltaTime;
+        if (CanAttack()) {
+            //jump to player position
+            //show particles and screen shake and such
+            //add force to all the objects in attack radius
+
+            timeSinceLastAttack = 0;
         }
     }
 }

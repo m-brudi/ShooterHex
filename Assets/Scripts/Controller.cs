@@ -24,7 +24,7 @@ public class Controller : SingletonMonoBehaviour<Controller>
     [SerializeField] int gridSizeZ;
     [SerializeField] float gridChanceToSpawnExtraHexes;
     bool canTerraform;
-    int coins = 10;
+    int coins = 1000;
     Hex hexToShow;
     Hex nextHexToPlace;
     bool isInPlayMode;
